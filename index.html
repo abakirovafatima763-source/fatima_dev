@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discover Kyrgyzstan | Land of Celestial Mountains</title>
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --primary-blue: #1B3B5F;
+            --mountain-blue: #0F2537;
+            --lake-cyan: #2A7B9B;
+            --earth-green: #3A5A40;
+            --light-green: #588157;
+            --sunset-orange: #E07A5F;
+            --sand-cream: #F4F1DE;
+            --bg-light: #FAFAFA;
+            --text-dark: #2B2D42;
+            --text-muted: #6C757D;
+            --white: #FFFFFF;
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+            --shadow-hover: 0 15px 35px rgba(0,0,0,0.15);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --border-radius: 12px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* --- UTILITY CLASSES --- */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .section {
+            padding: 100px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 60px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--mountain-blue);
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: var(--sunset-orange);
+            border-radius: 2px;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--sunset-orange);
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(224, 122, 95, 0.4);
+        }
+
+        .btn-primary:hover {
+            background-color: #d0694e;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(224, 122, 95, 0.6);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--white);
+            color: var(--mountain-blue);
+        }
+
+        /* Fade-in Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- STICKY NAVIGATION --- */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: var(--transition);
+            padding: 20px 0;
+            background: rgba(15, 37, 55, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .header.scrolled {
+            background: rgba(15, 37, 55, 0.95);
+            padding: 12px 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--white);
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-icon {
+            color: var(--sunset-orange);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--white);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--sunset-orange);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            outline: none;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: var(--white);
+            margin: 5px 0;
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            min-height: 650px;
+            background: linear-gradient(rgba(15, 37, 55, 0.45), rgba(15, 37, 55, 0.75)), 
+                        url('https://picsum.photos/id/1018/1920/1080') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+            position: relative;
+            padding-top: 80px;
+        }
+
+        .hero-content {
+            max-width: 850px;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+            line-height: 1.15;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.35rem;
+            margin-bottom: 35px;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        /* --- ABOUT SECTION --- */
+        .about {
+            background-color: var(--white);
+            position: relative;
+        }
+
+        .about-grid {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .about-image {
+            flex: 1;
+        }
+
+        .about-image img {
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            width: 100%;
+            object-fit: cover;
+            height: 420px;
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        .about-text h3 {
+            font-size: 1.8rem;
+            color: var(--mountain-blue);
+            margin-bottom: 20px;
+        }
+
+        .about-text p {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+        }
+
+        .about-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid #EAEAEA;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--lake-cyan);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* --- DESTINATIONS SECTION --- */
+        .destinations {
+            background-color: var(--bg-light);
+        }
+
+        .destinations-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .dest-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .dest-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .dest-img-wrapper {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+        }
+
+        .dest-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .dest-card:hover .dest-img-wrapper img {
+            transform: scale(1.08);
+        }
+
+        .dest-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(15, 37, 55, 0.75);
+            color: var(--white);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            backdrop-filter: blur(5px);
+            font-weight: 600;
+        }
+
+        .dest-content {
+            padding: 25px;
+        }
+
+        .dest-content h3 {
+            font-size: 1.35rem;
+            color: var(--mountain-blue);
+            margin-bottom: 10px;
+        }
+
+        .dest-content p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* --- ACTIVITIES SECTION --- */
+        .activities {
+            background-color: var(--sand-cream);
+            color: var(--mountain-blue);
+        }
+
+        .activities-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+        }
+
+        .act-card {
+            background: var(--white);
+            padding: 30px 20px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.04);
+            transition: var(--transition);
+        }
+
+        .act-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .act-icon {
+            width: 65px;
+            height: 65px;
+            background: rgba(58, 90, 64, 0.1);
+            color: var(--earth-green);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .act-card h3 {
+            font-size: 1.15rem;
+            margin-bottom: 12px;
+            color: var(--mountain-blue);
+        }
+
+        .act-card p {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+        }
+
+        /* --- BEST TIME TO VISIT --- */
+        .seasons {
+            background-color: var(--white);
+        }
+
+        .seasons-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+
+        .season-card {
+            border: 1px solid #EAEAEA;
+            border-radius: var(--border-radius);
+            padding: 30px 20px;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .season-card:hover {
+            border-color: var(--lake-cyan);
+            box-shadow: var(--shadow);
+        }
+
+        .season-icon {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .season-card h3 {
+            font-size: 1.3rem;
+            color: var(--mountain-blue);
+            margin-bottom: 5px;
+        }
+
+        .season-months {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--sunset-orange);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .season-card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* --- GALLERY SECTION --- */
+        .gallery {
+            background-color: var(--bg-light);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            height: 240px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 37, 55, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            opacity: 0;
+            transition: var(--transition);
+            font-size: 1.5rem;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        /* LIGHTBOX */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .lightbox-img {
+            max-width: 85%;
+            max-height: 85%;
+            border-radius: 8px;
+            box-shadow: 0 0 25px rgba(0,0,0,0.5);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .lightbox.active .lightbox-img {
+            transform: scale(1);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 25px;
+            right: 35px;
+            color: var(--white);
+            font-size: 2.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            line-height: 1;
+        }
+
+        .lightbox-close:hover {
+            color: var(--sunset-orange);
+        }
+
+        /* --- TESTIMONIALS SECTION --- */
+        .testimonials {
+            background-color: var(--white);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .test-card {
+            background: var(--bg-light);
+            padding: 35px 25px;
+            border-radius: var(--border-radius);
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .test-card::before {
+            content: '“';
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 4rem;
+            color: rgba(42, 123, 155, 0.15);
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+
+        .test-quote {
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            margin-bottom: 25px;
+            font-style: italic;
+            position: relative;
+            z-index: 1;
+        }
+
+        .test-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .test-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .test-name {
+            font-weight: 700;
+            color: var(--mountain-blue);
+            font-size: 1rem;
+        }
+
+        .test-country {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* --- CONTACT / PLANNING SECTION --- */
+        .contact {
+            background-color: var(--mountain-blue);
+            color: var(--white);
+        }
+
+        .contact .section-header h2 {
+            color: var(--white);
+        }
+
+        .contact .section-header p {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .contact-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--white);
+            font-size: 1rem;
+            transition: var(--transition);
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: var(--sunset-orange);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .contact-btn {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        /* --- FOOTER --- */
+        .footer {
+            background-color: #0A1926;
+            color: rgba(255, 255, 255, 0.6);
+            padding: 50px 0 20px;
+            font-size: 0.9rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            color: var(--white);
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--sunset-orange);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .social-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .social-icon:hover {
+            background: var(--sunset-orange);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 0.85rem;
+        }
+
+        /* --- RESPONSIVE MEDIA QUERIES --- */
+        @media (max-width: 1024px) {
+            .destinations-grid,
+            .gallery-grid,
+            .testimonials-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .activities-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .seasons-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hamburger { display: block; }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 75%;
+                height: 100vh;
+                background: var(--mountain-blue);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transition: 0.4s ease-in-out;
+                box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1.05rem; }
+            .hero-buttons { flex-direction: column; }
+
+            .about-grid {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .destinations-grid,
+            .activities-grid,
+            .seasons-grid,
+            .gallery-grid,
+            .testimonials-grid,
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .about-stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .contact-container { padding: 25px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. STICKY NAVIGATION HEADER -->
+    <header class="header" id="header">
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <span class="logo-icon">▲</span> KYRGYZSTAN
+            </a>
+            <button class="hamburger" id="hamburger" aria-label="Toggle Navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#destinations">Destinations</a></li>
+                <li><a href="#activities">Activities</a></li>
+                <li><a href="#seasons">Best Time</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#testimonials">Reviews</a></li>
+                <li><a href="#contact" class="btn btn-primary" style="padding: 8px 20px; color: #fff;">Plan Trip</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content fade-in">
+            <h1>Discover Kyrgyzstan</h1>
+            <p>Land of celestial mountains, untouched alpine lakes, and timeless nomadic traditions tucked in the heart of Central Asia.</p>
+            <div class="hero-buttons">
+                <a href="#destinations" class="btn btn-primary">Explore Places</a>
+                <a href="#contact" class="btn btn-outline">Start Planning</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. ABOUT KYRGYZSTAN -->
+    <section class="section about" id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-image fade-in">
+                    <img src="https://picsum.photos/id/1029/700/500" alt="Kyrgyz Mountains and Yurt">
+                </div>
+                <div class="about-text fade-in">
+                    <h3>The Heart of the Silk Road</h3>
+                    <p>Kyrgyzstan is a landlocked nation defined by its dramatic, pristine topography. Over 90% of the country is covered by soaring mountain ranges, dominated by the majestic Tian Shan system.</p>
+                    <p>Here, ancient nomadic customs blend effortlessly with breathtaking landscapes. Experience legendary hospitality, sleep in traditional felt yurts beneath starry night skies, and witness pristine ecosystems unchanged for centuries.</p>
+
+                    <div class="about-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">94%</span>
+                            <span class="stat-label">Mountainous</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">3,000+</span>
+                            <span class="stat-label">Alpine Lakes</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">7,439m</span>
+                            <span class="stat-label">Highest Peak</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. TOP DESTINATIONS GRID -->
+    <section class="section destinations" id="destinations">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Top Destinations</h2>
+                <p>Explore the most awe-inspiring regions and natural wonders Kyrgyzstan has to offer.</p>
+            </div>
+
+            <div class="destinations-grid">
+                <!-- Issyk-Kul Lake -->
+                <div class="dest-card fade-in">
+                    <div class="dest-img-wrapper">
+                        <img src="https://picsum.photos/id/1015/600/400" alt="Issyk-Kul Lake">
+                        <span class="dest-badge">Alpine Lake</span>
+                    </div>
+                    <div class="dest-content">
+                        <h3>Issyk-Kul Lake</h3>
+                        <p>The world’s second-largest alpine lake. Translating to "Warm Lake," it never freezes, framed by the snow-capped Tian Shan peaks.</p>
+                    </div>
+                </div>
+
+                <!-- Song-Kol Lake -->
+                <div class="dest-card fade-in">
+                    <div class="dest-img-wrapper">
+                        <img src="https://picsum.photos/id/1036/600/400" alt="Song-Kol Lake">
+                        <span class="dest-badge">Nomadic Culture</span>
+                    </div>
+                    <div class="dest-content">
+                        <h3>Song-Kol Lake</h3>
+                        <p>A high-altitude lake (3,016m) surrounded by lush summer pastures (jailoos) where semi-nomadic shepherds stay in traditional yurts.</p>
+                    </div>
+                </div>
+
+                <!-- Ala-Archa National Park -->
+                <div class="dest-card fade-in">
+                    <div class="dest-img-wrapper">
+                        <img src="https://picsum.photos/id/1043/600/400" alt="Ala-Archa National Park">
+                        <span class="dest-badge">Trekking & Hiking</span>
+                    </div>
+                    <div class="dest-content">
+                        <h3>Ala-Archa National Park</h3>
+                        <p>Located just an hour from Bishkek, offering dramatic glacier gorges, steep hiking trails, and magnificent alpine peaks.</p>
+                    </div>
+                </div>
+
+                <!-- Karakol -->
+                <div class="dest-card fade-in">
+                    <div class="dest-img-wrapper">
+                        <img src="https://picsum.photos/id/1050/600/400" alt="Karakol">
+                        <span class="dest-badge">Adventure Hub</span>
+                    </div>
+                    <div class="dest-content">
+                        <h3>Karakol</h3>
+                        <p>A charming eastern city known for its historic wooden Dungan mosque, Russian Orthodox church, and access to world-class trekking routes.</p>
+                    </div>
+                </div>
+
+                <!-- Osh -->
+                <div class="dest-card fade-in">
+                    <div class="dest-img-wrapper">
+                        <img src="https://picsum.photos/id/1062/600/400" alt="Osh City">
+                        <span class="dest-badge">History & Silk Road</span>
+                    </div>
+                    <div class="dest-content">
+                        <h3>Osh City</h3>
+                        <p>One of Central Asia's oldest cities (over 3,000 years old), famous for its vibrant Silk Road Jayma Bazaar and sacred Sulaiman-Too mountain.</p>
+                    </div>
+                </div>
+
+                <!-- Sary-Chelek -->
+                <div class="dest-card fade-in">
+                    <div class="dest-img-wrapper">
+                        <img src="https://picsum.photos/id/1069/600/400" alt="Sary-Chelek Reserve">
+                        <span class="dest-badge">Nature Reserve</span>
+                    </div>
+                    <div class="dest-content">
+                        <h3>Sary-Chelek Reserve</h3>
+                        <p>A UNESCO Biosphere Reserve featuring a breathtaking cobalt-blue lake surrounded by lush nut forests and emerald slopes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. ACTIVITIES SECTION -->
+    <section class="section activities" id="activities">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Unforgettable Activities</h2>
+                <p>Immerse yourself in nature and centuries-old outdoor traditions.</p>
+            </div>
+
+            <div class="activities-grid">
+                <div class="act-card fade-in">
+                    <div class="act-icon">🥾</div>
+                    <h3>Alpine Hiking</h3>
+                    <p>Traverse world-class high-altitude trails, pristine mountain passes, and stunning turquoise glaciers.</p>
+                </div>
+
+                <div class="act-card fade-in">
+                    <div class="act-icon">🐎</div>
+                    <h3>Horse Trekking</h3>
+                    <p>Experience the countryside as nomads have for millennia—on horseback across vast, open high pastures.</p>
+                </div>
+
+                <div class="act-card fade-in">
+                    <div class="act-icon">🎪</div>
+                    <h3>Yurt Stays</h3>
+                    <p>Sleep in authentic felt yurts, enjoy homemade local cuisine, and experience genuine nomadic hospitality.</p>
+                </div>
+
+                <div class="act-card fade-in">
+                    <div class="act-icon">🦅</div>
+                    <h3>Eagle Hunting</h3>
+                    <p>Witness Salburun—the ancient art of hunting with trained Golden Eagles preserved by local masters.</p>
+                </div>
+
+                <div class="act-card fade-in">
+                    <div class="act-icon">🎿</div>
+                    <h3>Freeride Skiing</h3>
+                    <p>Discover untouched powder snow in Karakol and backcountry terrain across the Tien Shan range during winter.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. BEST TIME TO VISIT -->
+    <section class="section seasons" id="seasons">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Best Time to Visit</h2>
+                <p>Kyrgyzstan offers unique beauty in every season, depending on your adventure goals.</p>
+            </div>
+
+            <div class="seasons-grid">
+                <div class="season-card fade-in">
+                    <span class="season-icon">🌸</span>
+                    <h3>Spring</h3>
+                    <span class="season-months">April – May</span>
+                    <p>Blooming wild valleys, pleasant city exploring in Bishkek and Osh, and lower altitude countryside walks.</p>
+                </div>
+
+                <div class="season-card fade-in">
+                    <span class="season-icon">☀️</span>
+                    <h3>Summer</h3>
+                    <span class="season-months">June – August</span>
+                    <p>Peak season for high-altitude trekking, horse riding, staying in yurt camps, and swimming in Lake Issyk-Kul.</p>
+                </div>
+
+                <div class="season-card fade-in">
+                    <span class="season-icon">🍁</span>
+                    <h3>Autumn</h3>
+                    <span class="season-months">Sept – October</span>
+                    <p>Golden mountain landscapes, clear blue skies, harvest season, and fewer tourists along popular routes.</p>
+                </div>
+
+                <div class="season-card fade-in">
+                    <span class="season-icon">❄️</span>
+                    <h3>Winter</h3>
+                    <span class="season-months">Nov – March</span>
+                    <p>A snowy paradise for backcountry skiers, snowboarders, and exploring tranquil, frozen landscapes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. PHOTO GALLERY -->
+    <section class="section gallery" id="gallery">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Photo Gallery</h2>
+                <p>A visual glimpse into the landscapes and wild heart of Kyrgyzstan.</p>
+            </div>
+
+            <div class="gallery-grid">
+                <div class="gallery-item fade-in" onclick="openLightbox('https://picsum.photos/id/1018/1200/800')">
+                    <img src="https://picsum.photos/id/1018/400/300" alt="Mountain Landscape">
+                    <div class="gallery-overlay">🔍</div>
+                </div>
+                <div class="gallery-item fade-in" onclick="openLightbox('https://picsum.photos/id/1025/1200/800')">
+                    <img src="https://picsum.photos/id/1025/400/300" alt="Wildlife in Mountains">
+                    <div class="gallery-overlay">🔍</div>
+                </div>
+                <div class="gallery-item fade-in" onclick="openLightbox('https://picsum.photos/id/1039/1200/800')">
+                    <img src="https://picsum.photos/id/1039/400/300" alt="Alpine Waterfall">
+                    <div class="gallery-overlay">🔍</div>
+                </div>
+                <div class="gallery-item fade-in" onclick="openLightbox('https://picsum.photos/id/1044/1200/800')">
+                    <img src="https://picsum.photos/id/1044/400/300" alt="Scenic Valley">
+                    <div class="gallery-overlay">🔍</div>
+                </div>
+                <div class="gallery-item fade-in" onclick="openLightbox('https://picsum.photos/id/1057/1200/800')">
+                    <img src="https://picsum.photos/id/1057/400/300" alt="Mountain Pass">
+                    <div class="gallery-overlay">🔍</div>
+                </div>
+                <div class="gallery-item fade-in" onclick="openLightbox('https://picsum.photos/id/1067/1200/800')">
+                    <img src="https://picsum.photos/id/1067/400/300" alt="Sunset Lake View">
+                    <div class="gallery-overlay">🔍</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LIGHTBOX MODAL -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <span class="lightbox-close">&times;</span>
+        <img class="lightbox-img" id="lightbox-img" src="" alt="Enlarged view">
+    </div>
+
+    <!-- 8. TRAVELER TESTIMONIALS -->
+    <section class="section testimonials" id="testimonials">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Traveler Stories</h2>
+                <p>Hear from adventurers who have experienced the magic of Central Asia.</p>
+            </div>
+
+            <div class="testimonials-grid">
+                <div class="test-card fade-in">
+                    <div class="test-quote">"Riding horses up to Song-Kol Lake and staying with a local shepherd family was easily the most authentic travel experience of my life. Unforgettable!"</div>
+                    <div class="test-author">
+                        <img src="https://picsum.photos/id/64/100/100" alt="Elena Rostova" class="test-avatar">
+                        <div>
+                            <div class="test-name">Elena Rostova</div>
+                            <div class="test-country">Germany</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="test-card fade-in">
+                    <div class="test-quote">"The mountain vistas in Ala-Archa blew me away. Kyrgyzstan is an absolute hidden gem for hikers and outdoor enthusiasts seeking raw nature."</div>
+                    <div class="test-author">
+                        <img src="https://picsum.photos/id/91/100/100" alt="Marcus Chen" class="test-avatar">
+                        <div>
+                            <div class="test-name">Marcus Chen</div>
+                            <div class="test-country">Canada</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="test-card fade-in">
+                    <div class="test-quote">"From the bustling markets in Osh to the tranquil shores of Issyk-Kul, the warmth and hospitality of the Kyrgyz people was unmatched."</div>
+                    <div class="test-author">
+                        <img src="https://picsum.photos/id/177/100/100" alt="Sarah Jenkins" class="test-avatar">
+                        <div>
+                            <div class="test-name">Sarah Jenkins</div>
+                            <div class="test-country">Australia</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. CONTACT / TRIP PLANNING FORM -->
+    <section class="section contact" id="contact">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Plan Your Expedition</h2>
+                <p>Ready to explore Kyrgyzstan? Send us your details and start designing your itinerary.</p>
+            </div>
+
+            <div class="contact-container fade-in">
+                <form id="tripForm" onsubmit="handleFormSubmit(event)">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" class="form-control" placeholder="e.g. John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" class="form-control" placeholder="e.g. john@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Trip Details / Message</label>
+                        <textarea id="message" class="form-control" placeholder="Tell us about your interests, travel dates, and party size..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary contact-btn">Send Inquiry</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <span class="footer-logo">▲ KYRGYZSTAN</span>
+                    <p>Discover the untouched beauty, high peaks, and rich nomadic traditions of Central Asia's premier eco-tourism destination.</p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon" title="Facebook">f</a>
+                        <a href="#" class="social-icon" title="Instagram">ig</a>
+                        <a href="#" class="social-icon" title="Twitter">tw</a>
+                        <a href="#" class="social-icon" title="YouTube">yt</a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4 style="color: #fff; margin-bottom: 15px;">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#about">About Country</a></li>
+                        <li><a href="#destinations">Destinations</a></li>
+                        <li><a href="#activities">Activities</a></li>
+                        <li><a href="#seasons">Best Time to Visit</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 style="color: #fff; margin-bottom: 15px;">Contact Info</h4>
+                    <ul class="footer-links">
+                        <li>📍 Bishkek, Kyrgyz Republic</li>
+                        <li>📧 info@discoverkyrgyzstan.kg</li>
+                        <li>📞 +996 312 123 456</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Discover Kyrgyzstan Tourism. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // Sticky Header Scroll Effect
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile Hamburger Menu
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('nav-links');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Close mobile menu when a link is clicked
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Fade-in Scroll Animations (IntersectionObserver)
+        const fadeElements = document.querySelectorAll('.fade-in');
+        const observerOptions = {
+            root: null,
+            threshold: 0.15,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        fadeElements.forEach(el => observer.observe(el));
+
+        // Lightbox Functions
+        function openLightbox(imgSrc) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            lightboxImg.src = imgSrc;
+            lightbox.classList.add('active');
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('active');
+        }
+
+        // Form Submission Handling (UI Demo)
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            alert(`Thank you, ${name}! Your inquiry has been received. We will contact you soon to plan your Kyrgyz adventure.`);
+            document.getElementById('tripForm').reset();
+        }
+    </script>
+</body>
+</html>
